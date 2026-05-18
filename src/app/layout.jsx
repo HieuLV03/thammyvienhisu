@@ -4,21 +4,18 @@ import Header from "@/components/Layout/Header/Header";
 export const metadata = {
   title: "THẨM MỸ VIỆN HISU",
   description: "Thẩm mỹ công nghệ cao",
+
+  verification: {
+    google: "iMhkqfnYHYPZ2e7ZhvNa8URs0nteVRjtS03F9CKa0sU",
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="vi">
       <body className="appBody">
-
-        {/* HEADER */}
         <Header />
-
-        {/* PAGE CONTENT */}
-        <main className="mainContent">
-          {children}
-        </main>
-
+        <main className="mainContent">{children}</main>
       </body>
     </html>
   );
