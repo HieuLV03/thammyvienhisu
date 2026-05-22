@@ -17,7 +17,6 @@ export default function CreateServicePage() {
     price: "",
     meta_title: "",
     meta_description: "",
-    meta_keywords: "",
     status: "published",
     is_featured: false,
   });
@@ -91,7 +90,6 @@ const sanitize = (text) => {
 
           meta_title: form.meta_title,
           meta_description: form.meta_description,
-          meta_keywords: form.meta_keywords,
           status: form.status,
           is_featured: form.is_featured,
         },
@@ -111,7 +109,6 @@ const sanitize = (text) => {
         price: "",
         meta_title: "",
         meta_description: "",
-        meta_keywords: "",
         status: "published",
         is_featured: false,
       });
@@ -219,17 +216,6 @@ const sanitize = (text) => {
             setForm({
               ...form,
               meta_description: e.target.value,
-            })
-          }
-        />
-
-        <input
-          placeholder="Meta keywords"
-          value={form.meta_keywords}
-          onChange={(e) =>
-            setForm({
-              ...form,
-              meta_keywords: e.target.value,
             })
           }
         />

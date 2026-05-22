@@ -4,6 +4,7 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import "./page.css"
+import BackButton from "@/components/BackButton/BackButton";
 export default function AuthPage() {
   const router = useRouter();
 
@@ -94,6 +95,7 @@ export default function AuthPage() {
 
   return (
     <div className="authPage">
+      <BackButton/>
       <div className="authCard">
         <h1>{mode === "login" ? "Đăng nhập" : "Đăng ký"}</h1>
 

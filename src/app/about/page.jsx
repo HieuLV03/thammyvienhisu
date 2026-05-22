@@ -1,9 +1,11 @@
+import BackButton from "@/components/BackButton/BackButton";
 import "./page.css";
 import Link from "next/link";
 
 export default function AboutPage() {
   return (
     <div className="about">
+    <BackButton />
 
       {/* HERO */}
       <div className="about-hero">

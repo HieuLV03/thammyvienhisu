@@ -1,6 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import "./page.css";
 import { notFound } from "next/navigation";
+import BackButton from "@/components/BackButton/BackButton";
 
 // FIX CACHE
 export const dynamic = "force-dynamic";
@@ -27,8 +28,6 @@ export async function generateMetadata({ params }) {
     description:
       data.meta_description ||
       data.short_description,
-
-    keywords: data.meta_keywords || "",
 
     alternates: {
       canonical: `https://testhisu.vercel.app/services/${data.slug}`,
@@ -83,6 +82,8 @@ export default async function Page({
 
   return (
     <div className="page">
+      <BackButton />
+
       <h1 className="title">
         {data.title}
       </h1>

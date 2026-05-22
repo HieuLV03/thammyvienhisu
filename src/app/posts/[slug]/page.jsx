@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import BackButton from "@/components/BackButton/BackButton";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -30,9 +31,6 @@ export async function generateMetadata({
       data.meta_description ||
       data.description,
 
-    keywords:
-      data.meta_keywords || "",
-
     alternates: {
       canonical: `https://testhisu.vercel.app/posts/${data.slug}`,
     },
@@ -46,8 +44,8 @@ export async function generateMetadata({
         data.meta_description ||
         data.description,
 
-      images: data.thumbnail
-        ? [data.thumbnail]
+      images: data.image
+        ? [data.image]
         : [],
     },
 
@@ -63,8 +61,8 @@ export async function generateMetadata({
         data.meta_description ||
         data.description,
 
-      images: data.thumbnail
-        ? [data.thumbnail]
+      images: data.image
+        ? [data.image]
         : [],
     },
   };
@@ -105,6 +103,8 @@ export default async function PostPage({
         margin: "0 auto",
       }}
     >
+      <BackButton />
+
       <h1>{data.title}</h1>
 
       <p
@@ -118,9 +118,9 @@ export default async function PostPage({
         {data.description}
       </p>
 
-      {data.thumbnail && (
+      {data.image && (
         <img
-          src={data.thumbnail}
+          src={data.image}
           alt={data.title}
           style={{
             width: "100%",

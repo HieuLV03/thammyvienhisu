@@ -21,8 +21,6 @@ export default function EditPostPage() {
     thumbnail: "",
     meta_title: "",
     meta_description: "",
-    meta_keywords: "",
-    og_image: "",
     category: "",
     status: "hidden",
     featured: false,
@@ -156,11 +154,6 @@ const updatePost = async () => {
         meta_description:
           form.meta_description,
 
-        meta_keywords:
-          form.meta_keywords,
-
-        og_image: form.og_image,
-
         category: form.category,
 
         status: form.status,
@@ -277,16 +270,6 @@ const updatePost = async () => {
           }
         />
 
-        <input
-          placeholder="Keywords"
-          value={form.meta_keywords}
-          onChange={(e) =>
-            setForm({
-              ...form,
-              meta_keywords: e.target.value,
-            })
-          }
-        />
 
         <input
           placeholder="Category"
@@ -295,17 +278,6 @@ const updatePost = async () => {
             setForm({
               ...form,
               category: e.target.value,
-            })
-          }
-        />
-
-        <input
-          placeholder="OG Image"
-          value={form.og_image}
-          onChange={(e) =>
-            setForm({
-              ...form,
-              og_image: e.target.value,
             })
           }
         />

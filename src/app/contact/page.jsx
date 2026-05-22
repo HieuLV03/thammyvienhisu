@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import "./page.css";
-
+import BackButton from "@/components/BackButton/BackButton";
 export default function ContactPage() {
   const [form, setForm] = useState({
     name: "",
@@ -60,6 +60,7 @@ export default function ContactPage() {
 
   return (
     <div className="contact">
+    <BackButton />
 
       {/* HERO */}
       <div className="contact-hero">

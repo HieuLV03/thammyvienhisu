@@ -31,7 +31,6 @@ export default function EditServicePage() {
     image: "",
     meta_title: "",
     meta_description: "",
-    meta_keywords: "",
     status: "published",
     is_featured: false,
   });
@@ -97,10 +96,6 @@ export default function EditServicePage() {
 
           meta_description:
             data.meta_description ||
-            "",
-
-          meta_keywords:
-            data.meta_keywords ||
             "",
 
           status:
@@ -225,9 +220,6 @@ export default function EditServicePage() {
 
             meta_description:
               form.meta_description,
-
-            meta_keywords:
-              form.meta_keywords,
 
             status:
               form.status,
@@ -413,20 +405,6 @@ export default function EditServicePage() {
             setForm({
               ...form,
               meta_description:
-                e.target.value,
-            })
-          }
-        />
-
-        <input
-          placeholder="Meta keywords"
-          value={
-            form.meta_keywords
-          }
-          onChange={(e) =>
-            setForm({
-              ...form,
-              meta_keywords:
                 e.target.value,
             })
           }

@@ -13,11 +13,9 @@ export default function CreatePostPage() {
     slug: "",
     description: "",
     content: "",
-    thumbnail: "",
+    image: "",
     meta_title: "",
     meta_description: "",
-    meta_keywords: "",
-    og_image: "",
     category: "",
     status: "published",
     featured: false,
@@ -73,10 +71,10 @@ export default function CreatePostPage() {
     setLoading(true);
 
     try {
-      let thumbnailUrl = "";
+      let imageUrl = "";
 
       if (file) {
-        thumbnailUrl = await uploadImage(file, form.slug);
+        imageUrl = await uploadImage(file, form.slug);
       }
 
       const { error } = await supabase.from("posts").insert([
@@ -86,13 +84,10 @@ export default function CreatePostPage() {
           description: form.description,
           content: form.content,
 
-          thumbnail: thumbnailUrl,
+          image: imageUrl,
 
           meta_title: form.meta_title,
           meta_description: form.meta_description,
-          meta_keywords: form.meta_keywords,
-          og_image: form.og_image,
-
           category: form.category,
           status: form.status,
           featured: form.featured,
@@ -110,11 +105,9 @@ export default function CreatePostPage() {
         slug: "",
         description: "",
         content: "",
-        thumbnail: "",
+        image: "",
         meta_title: "",
         meta_description: "",
-        meta_keywords: "",
-        og_image: "",
         category: "",
         status: "published",
         featured: false,
@@ -211,24 +204,6 @@ export default function CreatePostPage() {
           }
         />
 
-        <input
-          placeholder="Meta keywords"
-          value={form.meta_keywords}
-          onChange={(e) =>
-            setForm({
-              ...form,
-              meta_keywords: e.target.value,
-            })
-          }
-        />
-
-        <input
-          placeholder="OG image"
-          value={form.og_image}
-          onChange={(e) =>
-            setForm({ ...form, og_image: e.target.value })
-          }
-        />
 
         <select
           value={form.status}

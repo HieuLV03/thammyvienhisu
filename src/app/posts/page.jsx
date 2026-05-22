@@ -140,7 +140,7 @@ export default function HomePage() {
         <div className="blogGrid">
           {posts.map((p) => (
             <Link key={p.id} href={`/posts/${p.slug}`} className="blogCard">
-              <img src={p.thumbnail} alt={p.title} />
+              <img src={p.image} alt={p.title} />
               <div className="blogBody">
                 <h3>{p.title}</h3>
                 <p>{p.description}</p>
