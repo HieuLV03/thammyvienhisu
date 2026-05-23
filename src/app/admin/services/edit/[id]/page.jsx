@@ -32,7 +32,7 @@ export default function EditServicePage() {
     meta_title: "",
     meta_description: "",
     status: "published",
-    is_featured: false,
+    featured: false,
   });
 
   // =========================
@@ -102,8 +102,8 @@ export default function EditServicePage() {
             data.status ||
             "published",
 
-          is_featured:
-            data.is_featured ||
+          featured:
+            data.featured ||
             false,
         });
 
@@ -224,8 +224,8 @@ export default function EditServicePage() {
             status:
               form.status,
 
-            is_featured:
-              form.is_featured,
+            featured:
+              form.featured,
 
             updated_at:
               new Date().toISOString(),
@@ -437,12 +437,12 @@ export default function EditServicePage() {
           <input
             type="checkbox"
             checked={
-              form.is_featured
+              form.featured
             }
             onChange={(e) =>
               setForm({
                 ...form,
-                is_featured:
+                featured:
                   e.target.checked,
               })
             }

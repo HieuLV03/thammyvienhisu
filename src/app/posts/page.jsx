@@ -126,8 +126,20 @@ export default function HomePage() {
         <div className="blogGrid">
           {posts.map((p) => (
             <Link key={p.id} href={`/posts/${p.slug}`} className="blogCard">
-              <img src={p.image} alt={p.title} />
-              <div className="blogBody">
+<div className="blogImg">
+  <img
+    src={p.image}
+    alt={p.title}
+    loading="lazy"
+    decoding="async"
+  />
+
+  <div className="imgOverlay">
+    <span className="imgBtn">
+      Xem bài viết
+    </span>
+  </div>
+</div>              <div className="blogBody">
                 <h3>{p.title}</h3>
                 <p>{p.description}</p>
               </div>
@@ -149,14 +161,38 @@ export default function HomePage() {
               href={`/services/${s.slug}`}
               className="serviceCard"
             >
-              <div className="serviceImg">
-                <img src={s.image} alt={s.title} />
-              </div>
+           <div className="serviceImg">
+  <img
+    src={s.image}
+    alt={s.title}
+    loading="lazy"
+    decoding="async"
+  />
 
-              <div className="serviceBody">
-                <h3>{s.title}</h3>
-                <span>{Number(s.price).toLocaleString("vi-VN")}đ</span>
-              </div>
+  <div className="imgOverlay">
+    <span className="imgBtn">
+      Xem chi tiết
+    </span>
+  </div>
+</div>
+
+          <div className="serviceBody">
+  <h3>{s.title}</h3>
+
+  <div className="priceBox">
+    <span className="priceLabel">
+      Giá chỉ
+    </span>
+
+    <div className="priceValue">
+      {Number(s.price || 0).toLocaleString("vi-VN")}
+
+      <span className="currency">
+        đ
+      </span>
+    </div>
+  </div>
+</div>
             </Link>
           ))}
         </div>

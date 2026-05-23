@@ -46,10 +46,10 @@ export default function AboutPage() {
       <div className="about-section">
         <h2>Giá trị cốt lõi</h2>
         <ul>
-          <li>✔ Chất lượng đặt lên hàng đầu</li>
-          <li>✔ Khách hàng là trung tâm</li>
-          <li>✔ Minh bạch và uy tín</li>
-          <li>✔ Không ngừng cải tiến</li>
+          <li> Chất lượng đặt lên hàng đầu ✔</li>
+          <li> Khách hàng là trung tâm ✔</li>
+          <li> Minh bạch và uy tín ✔</li>
+          <li> Không ngừng cải tiến ✔</li>
         </ul>
       </div>
 

@@ -22,7 +22,7 @@ body {
 
 .heroSlider {
   width: 100%;
-  height: 90dvh;
+  height: 79dvh;
   position: relative;
   overflow: hidden;
 }
@@ -34,9 +34,8 @@ body {
 
 .heroSlide {
   width: 100%;
-  height: 100%;
+  height: 90%;
   position: relative;
-
   background-size: cover;
   background-position: center;
 
@@ -132,13 +131,93 @@ body {
   background: var(--primary);
   opacity: 1;
 }
+/* ================= IMAGE CTA ================= */
 
+.serviceImg,
+.blogImg {
+  position: relative;
+  overflow: hidden;
+  height: 240px;
+}
+
+.serviceImg img,
+.blogImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+/* overlay */
+.imgOverlay {
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.65),
+    rgba(0,0,0,0.1)
+  );
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  transition: 0.35s ease;
+}
+
+/* hover */
+.serviceCard:hover .imgOverlay,
+.blogCard:hover .imgOverlay {
+  opacity: 1;
+}
+
+.serviceCard:hover img,
+.blogCard:hover img {
+  transform: scale(1.08);
+}
+
+/* CTA button */
+.imgBtn {
+  background: rgba(255,255,255,0.95);
+  color: #ff4d8d;
+
+  padding: 12px 22px;
+  border-radius: 999px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  backdrop-filter: blur(10px);
+  transition: 0.3s ease;
+}
+
+.serviceCard:hover .imgBtn,
+.blogCard:hover .imgBtn {
+  background: #ff4d8d;
+  color: white;
+  transform: translateY(-4px);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .imgOverlay {
+    opacity: 1;
+  }
+
+  .imgBtn {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+}
 /* ================= SECTION ================= */
 
 .section {
   max-width: 1200px;
   margin: auto;
-  padding: 60px 20px;
+  padding: 36px 20px;
 }
 
 .sectionHeader h2 {
@@ -172,15 +251,61 @@ body {
 .blogCard:hover {
   transform: translateY(-8px);
 }
+/* ================= PRICE ================= */
 
-/* IMAGE */
-.serviceImg img,
-.blogCard img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
+.serviceBody {
+  padding: 18px;
 }
 
+.serviceBody h3 {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: 14px;
+  color: #222;
+}
+
+/* box giá */
+.priceBox {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* text nhỏ */
+.priceLabel {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #999;
+  font-weight: 600;
+}
+
+/* giá chính */
+.priceValue {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+
+  font-size: 28px;
+  font-weight: 800;
+
+  background: linear-gradient(
+    135deg,
+    #3aa0ff,
+    #ff4d8d
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* chữ đ */
+.currency {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
 /* BODY */
 .serviceBody,
 .blogBody {
@@ -212,27 +337,7 @@ body {
     font-size: 15px;
   }
 }
-.heroSlider {
-  width: 100%;
-  height: 90dvh;
-  position: relative;
-  overflow: hidden;
-}
 
-.heroSwiper {
-  width: 100%;
-  height: 100%;
-}
-
-.heroSlide {
-  width: 100%;
-  height: 100%;
-  position: relative;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 /* ⭐ QUAN TRỌNG: ảnh full cover */
 .heroImg {
@@ -243,86 +348,7 @@ body {
   object-fit: cover;
   display: block;
 }
-/* overlay */
-.heroOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.25),
-    rgba(0,0,0,0.75)
-  );
-  z-index: 1;
-}
 
-/* content */
-.heroContent {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  text-align: center;
-  color: white;
-  padding: 20px;
-}
-
-.heroContent h1 {
-  font-size: 60px;
-  font-weight: 800;
-  font-family: "Playfair Display", serif;
-}
-
-.heroContent p {
-  margin-top: 15px;
-  font-size: 18px;
-  opacity: 0.9;
-}
   .heroActions {
     flex-direction: column;
   }
-/* buttons */
-.heroActions {
-  margin-top: 30px;
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.btnPrimary {
-  background: white;
-  color: #ff4d8d;
-  padding: 12px 22px;
-  border-radius: 999px;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.btnOutline {
-  border: 1px solid white;
-  color: white;
-  padding: 12px 22px;
-  border-radius: 999px;
-  text-decoration: none;
-}
-
-/* swiper fix */
-.swiper,
-.swiper-slide {
-  width: 100%;
-  height: 100%;
-}
-
-/* pagination */
-.swiper-pagination-bullet {
-  background: white;
-  opacity: 0.5;
-}
-
-.swiper-pagination-bullet-active {
-  background: #ff4d8d;
-}

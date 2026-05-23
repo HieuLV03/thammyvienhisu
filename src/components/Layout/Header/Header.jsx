@@ -93,6 +93,8 @@ export default function Header() {
           <Link href="/posts" onClick={() => setMenuOpen(false)}>Bài viết</Link>
           <Link href="/about" onClick={() => setMenuOpen(false)}>Giới thiệu</Link>
           <Link href="/contact" onClick={() => setMenuOpen(false)}>Liên hệ</Link>
+                    <Link href="/booking" onClick={() => setMenuOpen(false)}>Đặt lịch</Link>
+
         </nav>
 
         <div className="headerRight">

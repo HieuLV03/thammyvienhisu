@@ -18,7 +18,7 @@ export default function CreateServicePage() {
     meta_title: "",
     meta_description: "",
     status: "published",
-    is_featured: false,
+    featured: false,
   });
 
   // =========================
@@ -91,7 +91,7 @@ const sanitize = (text) => {
           meta_title: form.meta_title,
           meta_description: form.meta_description,
           status: form.status,
-          is_featured: form.is_featured,
+          featured: form.featured,
         },
       ]);
 
@@ -110,7 +110,7 @@ const sanitize = (text) => {
         meta_title: "",
         meta_description: "",
         status: "published",
-        is_featured: false,
+        featured: false,
       });
 
       setFile(null);
@@ -223,11 +223,11 @@ const sanitize = (text) => {
         <label style={{ display: "flex", gap: 8 }}>
           <input
             type="checkbox"
-            checked={form.is_featured}
+            checked={form.featured}
             onChange={(e) =>
               setForm({
                 ...form,
-                is_featured: e.target.checked,
+                featured: e.target.checked,
               })
             }
           />

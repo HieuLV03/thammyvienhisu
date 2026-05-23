@@ -22,7 +22,7 @@ body {
 .heroSlider,
 .heroSlide {
   width: 100%;
-  height: 100dvh;
+  height: 79dvh;
 }
 
 .heroSlide {
@@ -35,7 +35,7 @@ body {
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 100%;
+  height: 90%;
   object-fit: cover;
     display: block;
 
@@ -121,11 +121,125 @@ body {
   border: 1px solid rgba(255,255,255,0.6);
   color: #fff;
 }
+.serviceImg,
+.blogImg {
+  position: relative;
+  overflow: hidden;
+}
 
+.serviceImg img,
+.blogImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.4s ease;
+}
+
+/* overlay */
+.imgOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: 0.3s ease;
+}
+
+/* hover hiện overlay */
+.serviceCard:hover .imgOverlay,
+.blogCard:hover .imgOverlay {
+  opacity: 1;
+}
+
+/* CTA buttons */
+.imgCta {
+  display: flex;
+  gap: 10px;
+}
+
+.imgCta span {
+  padding: 8px 12px;
+  font-size: 13px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.9);
+  color: #111;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.imgCta span:hover {
+  background: #ff4d6d;
+  color: #fff;
+}
 /* ================= SECTION ================= */
+@media (max-width: 768px) {
 
+  /* luôn hiện overlay */
+  .imgOverlay {
+    opacity: 1 !important;
+    background: rgba(0,0,0,0.35);
+  }
+
+  /* CTA gọn lại */
+  .imgCta {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .imgCta span {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}
+.serviceTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #111;
+}
+
+.serviceDesc {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+/* FOOTER */
+.serviceFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+/* GIÁ NỔI BẬT */
+.servicePrice {
+  font-size: 18px;
+  font-weight: 700;
+  color: #c8a96b;
+  letter-spacing: 0.3px;
+}
+
+/* BUTTON nhỏ sang */
+.serviceBtn {
+  font-size: 12px;
+  padding: 6px 10px;
+  border: 1px solid #c8a96b;
+  color: #c8a96b;
+  border-radius: 999px;
+  transition: 0.3s;
+}
+
+.serviceCard:hover .serviceBtn {
+  background: #c8a96b;
+  color: #fff;
+}
 .section {
-  padding: 100px 7%;
+  padding: 36px 6%;
 }
 
 .sectionHeader {
@@ -167,13 +281,6 @@ body {
 .blogImg {
   height: 260px;
   overflow: hidden;
-}
-
-.serviceImg img,
-.blogImg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 /* BODY */

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
-
+import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 
@@ -22,35 +22,40 @@ export default function HomePage() {
     fetchHomeData();
   }, []);
 
-  async function fetchHomeData() {
-    try {
-      const { data: sliderData } = await supabase
+async function fetchHomeData() {
+  try {
+    const [sliderRes, serviceRes, postRes] = await Promise.all([
+      supabase
         .from("sliders")
         .select("*")
         .eq("status", "published")
-        .order("created_at", { ascending: false });
+        .order("created_at", { ascending: false })
+        .limit(5),
 
-      const { data: serviceData } = await supabase
+      supabase
         .from("services")
         .select("*")
         .eq("status", "published")
+        .eq("featured", true)
         .order("created_at", { ascending: false })
-        .limit(6);
+        .limit(6),
 
-      const { data: postData } = await supabase
+      supabase
         .from("posts")
         .select("*")
         .eq("status", "published")
+        .eq("featured", true)
         .order("created_at", { ascending: false })
-        .limit(3);
+        .limit(3),
+    ]);
 
-      setSliders(sliderData || []);
-      setServices(serviceData || []);
-      setPosts(postData || []);
-    } finally {
-      setLoading(false);
-    }
+    setSliders(sliderRes.data || []);
+    setServices(serviceRes.data || []);
+    setPosts(postRes.data || []);
+  } finally {
+    setLoading(false);
   }
+}
 
   return (
     <main className="homePage">
@@ -143,17 +148,37 @@ export default function HomePage() {
                 href={`/services/${item.slug}`}
                 className="serviceCard"
               >
-                <div className="serviceImg">
-                  <img src={item.image} alt={item.title} />
-                </div>
+<div className="serviceImg">
+  <Image
+    src={item.image}
+    alt={item.title}
+    fill
+    sizes="(max-width: 768px) 100vw, 33vw"
+    style={{ objectFit: "cover" }}
+  />
 
-                <div className="serviceBody">
-                  <h3>{item.title}</h3>
-                  <p>{item.short_description}</p>
-                  <span>
-                    {Number(item.price || 0).toLocaleString("vi-VN")}đ
-                  </span>
-                </div>
+  <div className="imgOverlay">
+    <div className="imgCta">
+      <span>Xem chi tiết</span>
+    </div>
+  </div>
+</div>
+
+              <div className="serviceBody">
+  <h3 className="serviceTitle">{item.title}</h3>
+
+  <p className="serviceDesc">{item.short_description}</p>
+
+  <div className="serviceFooter">
+    <span className="servicePrice">
+      {Number(item.price || 0).toLocaleString("vi-VN")}₫
+    </span>
+
+    <span className="serviceBtn">
+      Xem chi tiết
+    </span>
+  </div>
+</div>
               </Link>
             ))}
           </div>
@@ -175,14 +200,27 @@ export default function HomePage() {
               className="blogCard"
             >
               {post.image && (
-                <div className="blogImg">
-                  <img src={post.image} alt={post.title} />
-                </div>
+<div className="blogImg">
+  <Image
+    src={post.image}
+    alt={post.title}
+    fill
+    sizes="(max-width: 768px) 100vw, 33vw"
+    style={{ objectFit: "cover" }}
+  />
+
+  <div className="imgOverlay">
+    <div className="imgCta">
+      <span>Xem bài viết</span>
+    </div>
+  </div>
+</div>
               )}
 
               <div className="blogBody">
                 <h3>{post.title}</h3>
                 <p>{post.description}</p>
+                
               </div>
             </Link>
           ))}

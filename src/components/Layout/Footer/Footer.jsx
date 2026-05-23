@@ -41,11 +41,13 @@ export default function Footer() {
               <strong>🏥 Cơ sở:</strong> 15A Sông Đà, P. Tân Sơn Hòa, TP.HCM
             </p>
           </div>
+          <h3>Mạng xã hội FACEBOOK</h3>
 
           <div className="social">
-            <a href="#">Facebook</a>
-            <a href="#">Instagram</a>
-            <a href="#">TikTok</a>
+            <a href="https://www.facebook.com/profile.php?id=61564510092133">Thẩm mỹ viên HISU</a>
+          </div>
+             <div className="social">
+            <a href="https://www.facebook.com/profile.php?id=61588684948414">Dịch vụ chuyên làm hồng vùng kín</a>
           </div>
         </div>
 

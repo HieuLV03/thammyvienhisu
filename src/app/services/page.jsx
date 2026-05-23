@@ -82,11 +82,12 @@ export default function HomePage() {
                       media="(max-width: 768px)"
                       srcSet={item.image_mobile}
                     />
-                    <img
-                      src={item.image_desktop || item.image}
-                      alt={item.title}
-                      className="heroImg"
-                    />
+               <img
+  src={item.image_desktop || item.image}
+  alt={item.title}
+  className="heroImg"
+  fetchPriority="high"
+/>
                   </picture>
 
                   <div className="heroOverlay" />
@@ -133,15 +134,30 @@ export default function HomePage() {
                   href={`/services/${s.slug}`}
                   className="serviceCard"
                 >
-                  <div className="serviceImg">
-                    <img src={s.image} alt={s.title} />
-                  </div>
+              <div className="serviceImg">
+<img
+  src={s.image}
+  alt={s.title}
+  loading="lazy"
+  decoding="async"
+/>
+  <div className="imgOverlay">
+    <span className="imgBtn">
+      Xem chi tiết
+    </span>
+  </div>
+</div>
 
                   <div className="serviceBody">
                     <h3>{s.title}</h3>
-                    <span>
-                      {Number(s.price || 0).toLocaleString("vi-VN")}đ
-                    </span>
+                 <div className="priceBox">
+  <span className="priceLabel">Giá từ</span>
+
+  <div className="priceValue">
+    {Number(s.price || 0).toLocaleString("vi-VN")}
+    <span className="currency">đ</span>
+  </div>
+</div>
                   </div>
                 </Link>
               ))}
@@ -159,29 +175,43 @@ export default function HomePage() {
       </section>
 
       {/* BLOG */}
-      <section className="section">
-        <div className="sectionHeader">
-          <h2>Bài viết mới</h2>
+{/* BLOG */}
+<section className="section">
+  <div className="sectionHeader">
+    <h2>Bài viết mới</h2>
+  </div>
+
+  <div className="blogGrid">
+    {posts.map((p) => (
+      <Link
+        key={p.id}
+        href={`/posts/${p.slug}`}
+        className="blogCard"
+      >
+        <div className="blogImg">
+          <img
+            src={p.image}
+            alt={p.title}
+            loading="lazy"
+            decoding="async"
+          />
+
+          {/* CTA OVERLAY */}
+          <div className="imgOverlay">
+            <span className="imgBtn">
+              Xem bài viết
+            </span>
+          </div>
         </div>
 
-        <div className="blogGrid">
-          {posts.map((p) => (
-            <Link
-              key={p.id}
-              href={`/posts/${p.slug}`}
-              className="blogCard"
-            >
-              <img src={p.image} alt={p.title} />
-
-              <div className="blogBody">
-                <h3>{p.title}</h3>
-                <p>{p.description}</p>
-              </div>
-            </Link>
-          ))}
+        <div className="blogBody">
+          <h3>{p.title}</h3>
+          <p>{p.description}</p>
         </div>
-      </section>
-
+      </Link>
+    ))}
+  </div>
+</section>
     </main>
   );
 }
