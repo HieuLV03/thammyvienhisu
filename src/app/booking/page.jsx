@@ -1,61 +1,107 @@
 "use client";
-
 import { useState } from "react";
 import "./page.css";
+import BackButton from "@/components/BackButton/BackButton";
 
 export default function BookingPage() {
   const [form, setForm] = useState({
     name: "",
     phone: "",
     email: "",
-    message: "",
-  });
+services: [],
+      serviceType: "",
 
+  });
+  const [errorPopup, setErrorPopup] = useState("");
+const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+  const showError = (msg) => {
+  setErrorPopup(msg);
+  setTimeout(() => setErrorPopup(""), 3000);
+};
+const handleCheckbox = (e) => {
+  const { value, checked } = e.target;
 
+  if (checked) {
+    setForm({
+      ...form,
+      services: [...form.services, value],
+    });
+  } else {
+    setForm({
+      ...form,
+      services: form.services.filter(
+        (item) => item !== value
+      ),
+    });
+  }
+};
 const handleSubmit = async (e) => {
   e.preventDefault();
+
+if (form.services.length === 0) {
+  showError("Vui lòng chọn ít nhất 1 dịch vụ để được tư vấn.");
+  return;
+}
+
   setLoading(true);
-  setSuccess(false);
 
-  try {
-    const res = await fetch("/api", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    });
+  const formData = { ...form };
 
-    const data = await res.json();
-
-    console.log("API response:", data);
-
-    if (data.success) {
-      setSuccess(true);
-      setForm({ name: "", phone: "", email: "", message: "" });
-
-      setTimeout(() => setSuccess(false), 5000);
-    } else {
-      alert(data.error || "Gửi thất bại!");
-    }
-  } catch (err) {
-    alert("Có lỗi xảy ra!");
-  }
+  setForm({
+    name: "",
+    phone: "",
+    email: "",
+    services: [],
+    serviceType: "",
+  });
 
   setLoading(false);
+
+  // 👉 show popup
+  setShowPopup(true);
+
+  setTimeout(() => {
+    setShowPopup(false);
+  }, 5000);
+
+  fetch("/api", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  }).catch(console.error);
 };
 
   return (
+    
     <div className="booking-container">
+      {errorPopup && (
+  <div className="successOverlay">
+    <div className="successPopup errorPopup">
+      <div className="successIcon">⚠️</div>
+
+      <h2>HISU thông báo</h2>
+
+      <p>{errorPopup}</p>
+
+      <button onClick={() => setErrorPopup("")}>
+        Đóng
+      </button>
+    </div>
+  </div>
+)}
+                    <BackButton />
+
       <div className="booking-box">
+        
         <h1>Đặt lịch tư vấn</h1>
-        <p>Điền thông tin, chúng tôi sẽ liên hệ lại cho bạn sớm nhất</p>
 
         <form onSubmit={handleSubmit} className="booking-form">
           <input
@@ -80,24 +126,96 @@ const handleSubmit = async (e) => {
             value={form.email}
             onChange={handleChange}
           />
+<select
+  name="serviceType"
+  value={form.serviceType}
+  onChange={handleChange}
+  required
+>
+  <option value="">-- Chọn hình thức làm đẹp --</option>
 
-          <textarea
-            name="message"
-            placeholder="Bạn cần tư vấn gì?"
-            value={form.message}
-            onChange={handleChange}
-            required
-          />
+  <option value="Làm tại cơ sở">
+    Làm tại cơ sở
+  </option>
+
+  <option value="Làm tại nhà">
+    Làm tại nhà
+  </option>
+</select>
+ <div className="checkboxGroup">
+  <p className="checkboxTitle">
+    Chọn dịch vụ cần tư vấn
+  </p>
+
+  <label>
+    <input
+      type="checkbox"
+      value="Môi"
+      checked={form.services.includes("Môi")}
+      onChange={handleCheckbox}
+    />
+    Môi
+  </label>
+
+  <label>
+    <input
+      type="checkbox"
+      value="Mày"
+      checked={form.services.includes("Mày")}
+      onChange={handleCheckbox}
+    />
+    Mày
+  </label>
+
+  <label>
+    <input
+      type="checkbox"
+      value="Ti"
+      checked={form.services.includes("Ti")}
+      onChange={handleCheckbox}
+    />
+    Ti
+  </label>
+
+  <label>
+    <input
+      type="checkbox"
+      value="Bikini"
+      checked={form.services.includes("Bikini")}
+      onChange={handleCheckbox}
+    />
+    Bikini
+  </label>
+
+  <label>
+    <input
+      type="checkbox"
+      value="Khử thâm"
+      checked={form.services.includes("Khử thâm")}
+      onChange={handleCheckbox}
+    />
+    Khử thâm
+  </label>
+</div>
 
           <button disabled={loading}>
             {loading ? "Đang gửi..." : "Gửi yêu cầu"}
           </button>
+          {showPopup && (
+  <div className="successOverlay">
+    <div className="successPopup">
+      <div className="successIcon">🎉</div>
 
-          {success && (
-            <div className="success">
-              ✔ Gửi thành công! Chúng tôi sẽ liên hệ bạn sớm.
-            </div>
-          )}
+      <h2>Gửi thành công!</h2>
+
+<p>Bộ phận tư vấn sẽ liên hệ lại bạn trong thời gian sớm nhất để hỗ trợ chi tiết.</p>
+
+      <button onClick={() => setShowPopup(false)}>
+        Đóng
+      </button>
+    </div>
+  </div>
+)}
         </form>
       </div>
     </div>

@@ -173,10 +173,6 @@ async function fetchHomeData() {
     <span className="servicePrice">
       {Number(item.price || 0).toLocaleString("vi-VN")}₫
     </span>
-
-    <span className="serviceBtn">
-      Xem chi tiết
-    </span>
   </div>
 </div>
               </Link>

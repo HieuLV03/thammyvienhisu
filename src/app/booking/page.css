@@ -16,13 +16,140 @@
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-.booking-box h1 {
-  margin-bottom: 10px;
-  font-size: 26px;
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 9px;
 }
 
+.checkboxTitle {
+  font-weight: 600;
+}
+
+.checkboxGroup label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+}
+
+.checkboxGroup input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+.booking-form select {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  outline: none;
+}
+.booking-box h1 {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  font-size: 26px;
+}
+.successOverlay {
+  position: fixed !important;
+  inset: 0 !important;
+
+  width: 100vw !important;
+  height: 100vh !important;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  padding-top: 80px;
+
+  background: rgba(0,0,0,0.5);
+  z-index: 999999;
+}
+
+.successPopup {
+  width: 320px;
+  background: #fff;
+  border-radius: 18px;
+display: flex;
+  padding: 2px;
+  text-align: center;
+
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+
+  animation: popIn 0.35s ease;
+}
+
+.successIcon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.successPopup h2 {
+  margin-bottom: 8px;
+  color: #ff4d8d;
+}
+
+.successPopup p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 18px;
+}
+
+.successPopup button {
+  padding: 10px 16px;
+  border: none;
+  background: linear-gradient(135deg, #ff4d8d, #ff85b3);
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.successOverlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+
+  /* ✔ giữa ngang */
+  justify-content: center;
+
+  /* ✔ đẩy lên trên nhưng vẫn giữa ngang */
+  align-items: center;
+
+  padding-top: 80px;
+
+  z-index: 99999;
+
+  background: rgba(0,0,0,0.5);
+
+  animation: fadeIn 0.25s ease;
+}
 .booking-box p {
-  margin-bottom: 20px;
   color: #666;
   font-size: 14px;
 }
@@ -35,17 +162,13 @@
 
 .booking-form input,
 .booking-form textarea {
-  padding: 12px;
+  padding: 9px;
   border: 1px solid #ddd;
   border-radius: 8px;
   outline: none;
   font-size: 14px;
 }
 
-.booking-form textarea {
-  min-height: 120px;
-  resize: none;
-}
 
 .booking-form button {
   padding: 12px;

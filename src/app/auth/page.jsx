@@ -7,7 +7,8 @@ import "./page.css"
 import BackButton from "@/components/BackButton/BackButton";
 export default function AuthPage() {
   const router = useRouter();
-
+const [errorPopup, setErrorPopup] = useState("");
+const [successPopup, setSuccessPopup] = useState("");
   const [mode, setMode] = useState("login");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,65 +18,110 @@ export default function AuthPage() {
   // =========================
   // LOGIN (FIX CHUẨN ROLE)
   // =========================
-  const handleLogin = async () => {
-    setLoading(true);
+  const translateAuthError = (message) => {
+  if (!message) return "Có lỗi xảy ra";
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    setLoading(false);
-
-    if (error) return alert(error.message);
-
-    const user = data.user;
-
-    if (!user) return alert("Login fail");
-
-    // lấy role từ DB
-    const { data: profile, error: profileError } = await supabase
-      .from("users")
-      .select("role")
-      .eq("id", user.id)
-      .single();
-
-    if (profileError || !profile) {
-      return alert("Không lấy được role user");
-    }
-
-    // =========================
-    // ROUTE THEO ROLE (QUAN TRỌNG)
-    // =========================
-    if (profile.role === "admin") {
-      router.push("/");
-    } else {
-      router.push("/");
-    }
+  const map = {
+    "Invalid login credentials": "Email hoặc mật khẩu không đúng",
+    "Email not confirmed": "Email chưa được xác thực",
+    "User already registered": "Email đã tồn tại",
+    "Password should be at least 6 characters":
+      "Mật khẩu phải có ít nhất 6 ký tự",
+    "For security purposes, you can only request this after 60 seconds":
+      "Vui lòng thử lại sau ít phút",
   };
 
+  return map[message] || "Đăng nhập thất bại, vui lòng thử lại";
+};
+const showError = (msg) => {
+  setErrorPopup(msg);
+  setTimeout(() => setErrorPopup(""), 4000);
+};
+
+const showSuccess = (msg) => {
+  setSuccessPopup(msg);
+  setTimeout(() => setSuccessPopup(""), 3000);
+};
+const isValidEmail = (email) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+const handleLogin = async () => {
+  setLoading(true);
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  setLoading(false);
+
+  if (error) {
+    return showError(translateAuthError(error.message));
+  }
+
+  const user = data?.user;
+
+  if (!user) {
+    return showError("Đăng nhập thất bại");
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from("users")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  if (profileError || !profile) {
+    return showError("Không lấy được thông tin tài khoản");
+  }
+
+  router.push("/");
+};
   // =========================
   // REGISTER
   // =========================
-  const handleRegister = async () => {
-    if (!name.trim()) return alert("Nhập họ tên");
+const handleRegister = async () => {
+  // NAME
+  if (!name.trim()) {
+    return showError("Vui lòng nhập họ tên");
+  }
 
-    setLoading(true);
+  // EMAIL RỖNG
+  if (!email.trim()) {
+    return showError("Vui lòng nhập email");
+  }
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+  // EMAIL SAI FORMAT (FRONTEND CHẶN LUÔN)
+  if (!isValidEmail(email)) {
+    return showError("Email không đúng định dạng");
+  }
 
-    setLoading(false);
+  // PASSWORD
+  if (!password) {
+    return showError("Vui lòng nhập mật khẩu");
+  }
 
-    if (error) return alert(error.message);
+  if (password.length < 6) {
+    return showError("Mật khẩu phải từ 6 ký tự trở lên");
+  }
 
-    const user = data?.user;
+  setLoading(true);
 
-    if (!user) return alert("Không tạo user");
+  const { data, error } = await supabase.auth.signUp({
+    email: email.trim(),
+    password,
+  });
 
-    // insert user mặc định role = user
+  setLoading(false);
+
+  // SERVER ERROR (chỉ còn lỗi thật sự)
+  if (error) {
+    return showError("Đăng ký thất bại, vui lòng thử lại");
+  }
+
+  const user = data?.user;
+
+  if (user) {
     const { error: insertError } = await supabase.from("users").insert([
       {
         id: user.id,
@@ -86,15 +132,46 @@ export default function AuthPage() {
     ]);
 
     if (insertError) {
-      return alert("Lỗi tạo profile user");
+      return showError("Không lưu được thông tin người dùng");
     }
+  }
 
-    alert("Đăng ký thành công!");
-    setMode("login");
-  };
+  showSuccess("Đăng ký thành công!");
 
+  setMode("login");
+};
   return (
     <div className="authPage">
+      {successPopup && (
+  <div className="successOverlay">
+    <div className="successPopup">
+      <div className="successIcon">💚</div>
+
+      <h2>HISU thông báo</h2>
+
+      <p>{successPopup}</p>
+
+      <button onClick={() => setSuccessPopup("")}>
+        Đóng
+      </button>
+    </div>
+  </div>
+)}
+      {errorPopup && (
+  <div className="successOverlay">
+    <div className="successPopup errorPopup">
+      <div className="successIcon">⚠️</div>
+
+      <h2>HISU thông báo</h2>
+
+      <p>{errorPopup}</p>
+
+      <button onClick={() => setErrorPopup("")}>
+        Đóng
+      </button>
+    </div>
+  </div>
+)}
       <BackButton/>
       <div className="authCard">
         <h1>{mode === "login" ? "Đăng nhập" : "Đăng ký"}</h1>

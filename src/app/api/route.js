@@ -30,20 +30,36 @@ export async function POST(req) {
     const transporter = createTransporter();
 
     console.log("📩 Sending email...");
+await transporter.sendMail({
+  from: `"Website Booking" <${process.env.EMAIL_USER}>`,
+  to: process.env.EMAIL_USER,
+  subject: "📩 Khách hàng cần tư vấn mới",
+  html: `
+    <div style="font-family: Arial; line-height: 1.6">
+      <h2>📩 Có khách hàng mới đặt lịch</h2>
 
-    await transporter.sendMail({
-      from: `"Website Booking" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER,
-      subject: "📩 Khách hàng cần tư vấn mới",
-      html: `
-        <h2>Thông tin booking mới</h2>
-        <p><b>Tên:</b> ${body.name}</p>
-        <p><b>SĐT:</b> ${body.phone}</p>
-        <p><b>Email:</b> ${body.email || "Không có"}</p>
-        <p><b>Nội dung:</b> ${body.message}</p>
-      `,
-    });
+      <p><b>👤 Họ tên:</b> ${body.name}</p>
 
+      <p><b>📞 Số điện thoại:</b> ${body.phone}</p>
+
+      <p><b>📧 Email:</b> ${
+        body.email || "Không có"
+      }</p>
+
+      <p><b>🏠 Hình thức:</b> ${
+        body.serviceType
+      }</p>
+
+      <p><b>💅 Dịch vụ:</b></p>
+
+      <ul>
+        ${body.services
+          ?.map((item) => `<li>${item}</li>`)
+          .join("")}
+      </ul>
+    </div>
+  `,
+});
     console.log("✅ Email sent");
 
     return Response.json({ success: true });

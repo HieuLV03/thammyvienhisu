@@ -35,7 +35,7 @@ body {
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 90%;
+  height: 100%;
   object-fit: cover;
     display: block;
 
@@ -139,12 +139,23 @@ body {
 .imgOverlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.35);
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(0,0,0,0.65),
+      rgba(0,0,0,0.15)
+    );
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   opacity: 0;
-  transition: 0.3s ease;
+
+  transition: 0.35s ease;
+
+  backdrop-filter: blur(2px);
 }
 
 /* hover hiện overlay */
@@ -153,36 +164,99 @@ body {
   opacity: 1;
 }
 
-/* CTA buttons */
 .imgCta {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  justify-content: center;
 }
 
 .imgCta span {
-  padding: 8px 12px;
-  font-size: 13px;
-  border-radius: 6px;
-  background: rgba(255,255,255,0.9);
-  color: #111;
-  font-weight: 500;
+  position: relative;
+
+  padding: 14px 24px;
+
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.18);
+
+  border: 1px solid rgba(255,255,255,0.25);
+
+  color: #fff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  letter-spacing: 0.5px;
+
+  backdrop-filter: blur(10px);
+
   cursor: pointer;
-  transition: 0.2s;
+
+  overflow: hidden;
+
+  transition: 0.3s ease;
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,0.15);
+
+  animation: ctaFloat 2.5s ease-in-out infinite;
+}
+.imgCta span::after {
+  content: "→";
+
+  margin-left: 10px;
+
+  display: inline-block;
+
+  transition: 0.3s ease;
 }
 
 .imgCta span:hover {
-  background: #ff4d6d;
-  color: #fff;
+  transform: translateY(-3px) scale(1.03);
+
+  background: linear-gradient(
+    90deg,
+    #d4af37,
+    #f5d67b
+  );
+
+  color: #111;
+
+  box-shadow:
+    0 12px 30px rgba(212,175,55,0.35);
+}
+
+.imgCta span:hover::after {
+  transform: translateX(4px);
+}
+
+/* floating animation */
+@keyframes ctaFloat {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
 }
 /* ================= SECTION ================= */
 @media (max-width: 768px) {
 
-  /* luôn hiện overlay */
   .imgOverlay {
     opacity: 1 !important;
-    background: rgba(0,0,0,0.35);
-  }
 
+    background:
+      linear-gradient(
+        to top,
+        rgba(0,0,0,0.5),
+        rgba(0,0,0,0.08)
+      );
+  }
   /* CTA gọn lại */
   .imgCta {
     flex-direction: column;
@@ -190,8 +264,9 @@ body {
   }
 
   .imgCta span {
-    font-size: 12px;
-    padding: 6px 10px;
+    padding: 12px 18px;
+
+    font-size: 13px;
   }
 }
 .serviceTitle {
@@ -225,19 +300,6 @@ body {
 }
 
 /* BUTTON nhỏ sang */
-.serviceBtn {
-  font-size: 12px;
-  padding: 6px 10px;
-  border: 1px solid #c8a96b;
-  color: #c8a96b;
-  border-radius: 999px;
-  transition: 0.3s;
-}
-
-.serviceCard:hover .serviceBtn {
-  background: #c8a96b;
-  color: #fff;
-}
 .section {
   padding: 36px 6%;
 }

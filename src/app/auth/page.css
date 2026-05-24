@@ -13,6 +13,13 @@
   padding: 16px;
   box-sizing: border-box;
 }
+.errorPopup h2 {
+  color: #ff3b3b;
+}
+
+.errorPopup button {
+  background: linear-gradient(135deg, #ff3b3b, #ff6b6b);
+}
 /* ========================= */
 /* AUTH CARD */
 /* ========================= */
@@ -76,7 +83,71 @@
   border-color: #3aa0ff;
   box-shadow: 0 0 0 3px rgba(58, 160, 255, 0.15);
 }
+.successOverlay {
+  position: fixed !important;
+  inset: 0 !important;
 
+  width: 100vw !important;
+  height: 100vh !important;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  padding-top: 80px;
+
+  background: rgba(0,0,0,0.5);
+
+  z-index: 999999;
+}
+.successPopup {
+  min-width: 320px;
+  max-width: 420px;
+
+  background: white;
+  border-radius: 14px;
+
+  padding: 14px 16px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  animation: toastIn 0.35s ease;
+
+  pointer-events: auto;
+}
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.successPopup h2 {
+  font-size: 16px;
+  margin: 0;
+  color: #111;
+}
+
+.successPopup p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.errorPopup {
+  border-left: 4px solid #ff3b3b;
+}
+
+.successPopup:not(.errorPopup) {
+  border-left: 4px solid #22c55e;
+}
 /* ========================= */
 /* BUTTON */
 /* ========================= */

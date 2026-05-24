@@ -160,7 +160,7 @@
     display: block;
   }
 
-  .nav {
+ .nav {
     position: absolute;
     top: 100%;
     left: 0;
@@ -172,21 +172,28 @@
     flex-direction: column;
     gap: 0;
 
-    display: none;
+    overflow: hidden;
+
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+
+    transition: all 0.35s ease;
 
     border-bottom: 1px solid rgba(58,160,255,0.15);
     z-index: 9999;
   }
 
   .nav.active {
-    display: flex;
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .nav a {
     padding: 14px 20px;
     border-bottom: 1px solid #eee;
   }
-
   .header {
     padding: 0 18px;
   }
