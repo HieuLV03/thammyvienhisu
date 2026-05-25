@@ -10,8 +10,6 @@ export async function generateStaticParams() {
     .select("slug")
     .eq("status", "published");
 
-  if (!data || data.length === 0) return [];
-
   return data.map((item) => ({
     slug: item.slug,
   }));
@@ -19,10 +17,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }) {
-const slug = params?.slug;
-if (!slug) return {
-  title: "Không tìm thấy bài viết"
-};
+  const { slug } = params;
+
   const { data } = await supabase
     .from("posts")
     .select("*")
@@ -46,7 +42,7 @@ if (!slug) return {
       data.description,
 
     alternates: {
-      canonical: `https://thammyvienhisu.online/posts/${data.slug}`,
+      canonical: `https://testhisu.vercel.app/posts/${data.slug}`,
     },
 
     openGraph: {
@@ -96,7 +92,7 @@ export default async function PostPage({
         "status",
         "published"
       )
-      .maybeSingle();
+      .single();
 
   if (error || !data) {
     return (
