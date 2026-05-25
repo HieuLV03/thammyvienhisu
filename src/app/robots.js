@@ -6,6 +6,6 @@ export default function robots() {
     },
 
     sitemap:
-      "https://testhisu.vercel.app/sitemap.xml",
+      "https://thammyvienhisu.online/sitemap.xml",
   };
 }

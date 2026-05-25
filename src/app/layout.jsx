@@ -7,7 +7,7 @@ import BookingButton from "@/components/BookingButton/BookingButton";
 
 export const metadata = {
   metadataBase: new URL(
-    "https://testhisu.vercel.app"
+    "https://thammyvienhisu.online.app"
   ),
 
   title: {
