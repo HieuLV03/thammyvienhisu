@@ -20,7 +20,11 @@ export async function generateStaticParams() {
 }
 export async function generateMetadata({ params }) {
 const slug = params?.slug;
-if (!slug) return notFound();
+if (!slug) {
+  return {
+    title: "Không tìm thấy dịch vụ",
+  };
+}
   const { data } = await supabase
     .from("services")
     .select("*")

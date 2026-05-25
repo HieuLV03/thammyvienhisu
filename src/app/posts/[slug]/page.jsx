@@ -20,7 +20,9 @@ export async function generateMetadata({
   params,
 }) {
 const slug = params?.slug;
-if (!slug) return notFound();
+if (!slug) return {
+  title: "Không tìm thấy bài viết"
+};
   const { data } = await supabase
     .from("posts")
     .select("*")
