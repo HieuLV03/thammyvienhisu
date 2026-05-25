@@ -12,13 +12,19 @@ export async function generateStaticParams() {
     .select("slug")
     .eq("status", "published");
 
+  if (!data || data.length === 0) return [];
+
   return data.map((item) => ({
     slug: item.slug,
   }));
 }
 export async function generateMetadata({ params }) {
-  const { slug } = params;
-
+const slug = params?.slug;
+if (!slug) {
+  return {
+    title: "Không tìm thấy dịch vụ",
+  };
+}
   const { data } = await supabase
     .from("services")
     .select("*")
@@ -39,7 +45,7 @@ export async function generateMetadata({ params }) {
       data.short_description,
 
     alternates: {
-      canonical: `https://testhisu.vercel.app/services/${data.slug}`,
+      canonical: `https://thammyvienhisu.online/services/${data.slug}`,
     },
 
     openGraph: {
