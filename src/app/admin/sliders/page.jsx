@@ -20,6 +20,9 @@ export default function AdminSlidersPage() {
     fetchSliders();
   }, []);
 
+  // =========================
+  // GET SLIDERS
+  // =========================
   async function fetchSliders() {
     const { data, error } = await supabase
       .from("sliders")
@@ -29,6 +32,9 @@ export default function AdminSlidersPage() {
     if (!error) setSliders(data || []);
   }
 
+  // =========================
+  // ADD SLIDER
+  // =========================
   async function handleAddSlider(e) {
     e.preventDefault();
 
@@ -50,18 +56,25 @@ export default function AdminSlidersPage() {
         ? `${Date.now()}-${uid}-mobile-${cleanName(imageMobile)}`
         : null;
 
-      // upload desktop
+      // =========================
+      // UPLOAD DESKTOP
+      // =========================
       const { error: upErr1 } = await supabase.storage
         .from("images_slider")
         .upload(fileDesktop, imageDesktop);
 
-      if (upErr1) return alert(upErr1.message);
+      if (upErr1) {
+        alert(upErr1.message);
+        return;
+      }
 
       const { data: desktopUrl } = supabase.storage
         .from("images_slider")
         .getPublicUrl(fileDesktop);
 
-      // upload mobile
+      // =========================
+      // UPLOAD MOBILE
+      // =========================
       let mobileUrl = null;
 
       if (imageMobile) {
@@ -69,7 +82,10 @@ export default function AdminSlidersPage() {
           .from("images_slider")
           .upload(fileMobile, imageMobile);
 
-        if (upErr2) return alert(upErr2.message);
+        if (upErr2) {
+          alert(upErr2.message);
+          return;
+        }
 
         const { data: mUrl } = supabase.storage
           .from("images_slider")
@@ -78,18 +94,29 @@ export default function AdminSlidersPage() {
         mobileUrl = mUrl.publicUrl;
       }
 
-      // insert db
+      // =========================
+      // INSERT DB (IMPORTANT FIX)
+      // =========================
       const { error: insertErr } = await supabase.from("sliders").insert([
         {
           title,
           image_desktop: desktopUrl.publicUrl,
           image_mobile: mobileUrl,
+
+          // 🔥 PATH (dùng để xóa storage)
+          desktop_path: fileDesktop,
+          mobile_path: fileMobile,
+
           status: "published",
         },
       ]);
 
-      if (insertErr) return alert(insertErr.message);
+      if (insertErr) {
+        alert(insertErr.message);
+        return;
+      }
 
+      // reset form
       setTitle("");
       setImageDesktop(null);
       setImageMobile(null);
@@ -104,25 +131,59 @@ export default function AdminSlidersPage() {
     }
   }
 
-  async function handleDelete(id) {
+  // =========================
+  // DELETE SLIDER (FIXED)
+  // =========================
+  async function handleDelete(item) {
     if (!confirm("Xóa slider?")) return;
 
-    const { error } = await supabase
-      .from("sliders")
-      .delete()
-      .eq("id", id);
+    try {
+      const filesToDelete = [];
 
-    if (!error) fetchSliders();
+      if (item.desktop_path) filesToDelete.push(item.desktop_path);
+      if (item.mobile_path) filesToDelete.push(item.mobile_path);
+
+      // 1. DELETE STORAGE
+      if (filesToDelete.length > 0) {
+        const { error: storageErr } = await supabase.storage
+          .from("images_slider")
+          .remove(filesToDelete);
+
+        if (storageErr) {
+          console.log(storageErr.message);
+          alert("Lỗi xóa ảnh storage");
+          return;
+        }
+      }
+
+      // 2. DELETE DATABASE
+      const { error } = await supabase
+        .from("sliders")
+        .delete()
+        .eq("id", item.id);
+
+      if (error) {
+        alert(error.message);
+        return;
+      }
+
+      fetchSliders();
+      alert("Xóa slider thành công");
+    } catch (err) {
+      console.log(err);
+      alert("Có lỗi xảy ra");
+    }
   }
 
+  // =========================
+  // UI
+  // =========================
   return (
     <main className="adminSliderPage">
-
       <h1>Quản lý Slider</h1>
 
       {/* FORM */}
       <form onSubmit={handleAddSlider} className="sliderForm">
-
         <input
           type="text"
           placeholder="Tiêu đề slider"
@@ -149,15 +210,12 @@ export default function AdminSlidersPage() {
         <button type="submit" disabled={uploading}>
           {uploading ? "Đang upload..." : "Thêm Slider"}
         </button>
-
       </form>
 
       {/* LIST */}
       <div className="sliderList">
-
         {sliders.map((item) => (
           <div key={item.id} className="sliderCard">
-
             <img
               src={item.image_desktop}
               alt={item.title}
@@ -177,17 +235,14 @@ export default function AdminSlidersPage() {
 
               <button
                 className="deleteBtn"
-                onClick={() => handleDelete(item.id)}
+                onClick={() => handleDelete(item)}
               >
                 Xóa
               </button>
             </div>
-
           </div>
         ))}
-
       </div>
-
     </main>
   );
 }

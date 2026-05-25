@@ -1,5 +1,5 @@
 .adminSliderPage {
-  margin-top: 36px;
+  margin-top: 3px;
   padding: 20px;
   background: #f7f9fc;
   min-height: 100vh;
@@ -139,6 +139,7 @@
 @media (max-width: 768px) {
   .adminSliderPage {
     padding: 12px;
+    margin-top: 12px;
   }
 
   .sliderForm {
