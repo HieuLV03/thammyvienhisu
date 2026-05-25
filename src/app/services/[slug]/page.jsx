@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import "./page.css";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import BackButton from "@/components/BackButton/BackButton";
 
@@ -116,14 +117,18 @@ export default async function Page({
     </div>
   </div>
 )}
-
-      {data.image && (
-        <img
-          className="image"
-          src={data.image}
-          alt={data.title}
-        />
-      )}
+<div className="detailImage">
+  <Image
+    src={data.image}
+    alt={data.title}
+    fill
+    priority
+    sizes="100vw"
+    style={{
+      objectFit: "cover",
+    }}
+  />
+</div>
 
       <div
         className="content"

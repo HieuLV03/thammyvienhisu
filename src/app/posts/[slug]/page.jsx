@@ -1,6 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import BackButton from "@/components/BackButton/BackButton";
 import "./page.css"
+import Image from "next/image";
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
@@ -114,13 +115,18 @@ return (
         {data.description}
       </p>
 
-      {data.image && (
-        <img
-          className="postImage"
-          src={data.image}
-          alt={data.title}
-        />
-      )}
+ <div className="postImageWrap">
+  <Image
+    src={data.image}
+    alt={data.title}
+    fill
+    priority
+    sizes="100vw"
+    style={{
+      objectFit: "cover",
+    }}
+  />
+</div>
 
       <div
         className="content"

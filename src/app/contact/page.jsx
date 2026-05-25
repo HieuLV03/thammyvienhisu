@@ -1,17 +1,22 @@
 "use client";
+
 import { useState } from "react";
 import "./page.css";
 import BackButton from "@/components/BackButton/BackButton";
+
 export default function ContactPage() {
   const [form, setForm] = useState({
     name: "",
     phone: "",
     email: "",
+    services: [],
+    serviceType: "",
     message: "",
   });
 
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [errorPopup, setErrorPopup] = useState("");
 
   const handleChange = (e) => {
     setForm({
@@ -20,10 +25,41 @@ export default function ContactPage() {
     });
   };
 
+  const handleCheckbox = (e) => {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      setForm({
+        ...form,
+        services: [...form.services, value],
+      });
+    } else {
+      setForm({
+        ...form,
+        services: form.services.filter((i) => i !== value),
+      });
+    }
+  };
+
+  const showError = (msg) => {
+    setErrorPopup(msg);
+    setTimeout(() => setErrorPopup(""), 3000);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (form.services.length === 0) {
+      showError("Vui lòng chọn ít nhất 1 dịch vụ.");
+      return;
+    }
+
+    if (!form.serviceType) {
+      showError("Vui lòng chọn hình thức làm đẹp.");
+      return;
+    }
+
     setLoading(true);
-    setSuccess(false);
 
     try {
       const res = await fetch("/api", {
@@ -36,23 +72,24 @@ export default function ContactPage() {
 
       const data = await res.json();
 
-      if (data.success) {
-        setSuccess(true);
-        setForm({
-          name: "",
-          phone: "",
-          email: "",
-          message: "",
-        });
+      if (!data.success) throw new Error();
 
-        setTimeout(() => {
-          setSuccess(false);
-        }, 5000);
-      } else {
-        alert("Gửi thất bại!");
-      }
+      setForm({
+        name: "",
+        phone: "",
+        email: "",
+        services: [],
+        serviceType: "",
+        message: "",
+      });
+
+      setShowPopup(true);
+
+      setTimeout(() => {
+        setShowPopup(false);
+      }, 5000);
     } catch (err) {
-      alert("Có lỗi xảy ra!");
+      showError("Gửi thất bại, vui lòng thử lại.");
     }
 
     setLoading(false);
@@ -60,21 +97,41 @@ export default function ContactPage() {
 
   return (
     <div className="contact">
-    <BackButton />
+      <BackButton />
+
+      {/* ERROR POPUP */}
+      {errorPopup && (
+        <div className="successOverlay">
+          <div className="successPopup errorPopup">
+            <div className="successIcon">⚠️</div>
+            <h2>HISU thông báo</h2>
+            <p>{errorPopup}</p>
+            <button onClick={() => setErrorPopup("")}>Đóng</button>
+          </div>
+        </div>
+      )}
+
+      {/* SUCCESS POPUP */}
+      {showPopup && (
+        <div className="successOverlay">
+          <div className="successPopup">
+            <div className="successIcon">🎉</div>
+            <h2>Gửi thành công!</h2>
+            <p>Chúng tôi sẽ liên hệ bạn sớm nhất.</p>
+            <button onClick={() => setShowPopup(false)}>Đóng</button>
+          </div>
+        </div>
+      )}
 
       {/* HERO */}
       <div className="contact-hero">
-        <h1>Liên hệ với chúng tôi</h1>
-        <p>
-          Gửi thông tin hoặc yêu cầu hỗ trợ, chúng tôi sẽ phản hồi nhanh nhất có thể.
-        </p>
+        <h1>Liên hệ tư vấn</h1>
+        <p>Gửi thông tin, chúng tôi sẽ hỗ trợ nhanh nhất</p>
       </div>
 
       <div className="contact-wrapper">
-
-        {/* FORM */}
         <div className="contact-form">
-          <p>Điền thông tin, chúng tôi sẽ liên hệ lại cho bạn sớm nhất</p>
+          <p>Điền thông tin để được tư vấn</p>
 
           <form onSubmit={handleSubmit} className="booking-form">
             <input
@@ -100,6 +157,74 @@ export default function ContactPage() {
               onChange={handleChange}
             />
 
+            {/* serviceType */}
+            <select
+              name="serviceType"
+              value={form.serviceType}
+              onChange={handleChange}
+              required
+            >
+              <option value="">-- Hình thức --</option>
+              <option value="Làm tại cơ sở">Làm tại cơ sở</option>
+              <option value="Làm tại nhà">Làm tại nhà</option>
+            </select>
+
+            {/* SERVICES */}
+            <div className="checkboxGroup">
+              <p className="checkboxTitle">Chọn dịch vụ</p>
+
+              <label>
+                <input
+                  type="checkbox"
+                  value="Môi"
+                  checked={form.services.includes("Môi")}
+                  onChange={handleCheckbox}
+                />
+                Môi
+              </label>
+
+              <label>
+                <input
+                  type="checkbox"
+                  value="Mày"
+                  checked={form.services.includes("Mày")}
+                  onChange={handleCheckbox}
+                />
+                Mày
+              </label>
+
+              <label>
+                <input
+                  type="checkbox"
+                  value="Ti"
+                  checked={form.services.includes("Ti")}
+                  onChange={handleCheckbox}
+                />
+                Ti
+              </label>
+
+              <label>
+                <input
+                  type="checkbox"
+                  value="Bikini"
+                  checked={form.services.includes("Bikini")}
+                  onChange={handleCheckbox}
+                />
+                Bikini
+              </label>
+
+              <label>
+                <input
+                  type="checkbox"
+                  value="Khử thâm"
+                  checked={form.services.includes("Khử thâm")}
+                  onChange={handleCheckbox}
+                />
+                Khử thâm
+              </label>
+            </div>
+
+            {/* MESSAGE */}
             <textarea
               name="message"
               placeholder="Bạn cần tư vấn gì?"
@@ -111,28 +236,19 @@ export default function ContactPage() {
             <button disabled={loading}>
               {loading ? "Đang gửi..." : "Gửi yêu cầu"}
             </button>
-
-            {success && (
-              <div className="success">
-                ✔ Gửi thành công! Chúng tôi sẽ liên hệ bạn sớm.
-              </div>
-            )}
           </form>
         </div>
 
-        {/* INFO */}
         <div className="contact-info">
           <h2>Thông tin</h2>
-
-          <p>📍 Địa chỉ: 15A Sông Đà, Phường Tân Sơn Hòa, TP. HCM</p>
-          <p>📞 Số điện thoại: 0372 089 821 </p>
-          <p>📧 Email: thammyvienhisu@gmai.com</p>
+          <p>📍 15A Sông Đà, TP.HCM</p>
+          <p>📞 0372 089 821</p>
+          <p>📧 thammyvienhisu@gmail.com</p>
 
           <div className="contact-note">
-            Cảm ơn Quý khách hàng đã luôn tin tưởng và sử dụng dịch vụ của HISU
+            Cảm ơn bạn đã tin tưởng HISU
           </div>
         </div>
-
       </div>
     </div>
   );
