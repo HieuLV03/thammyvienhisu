@@ -205,3 +205,79 @@ display: flex;
   color: green;
   font-size: 14px;
 }
+/* ================= RESPONSIVE ================= */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .booking-box {
+    max-width: 90%;
+    padding: 20px;
+  }
+
+  .booking-box h1 {
+    font-size: 24px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .booking-container {
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .booking-box {
+    margin-top: 60px;
+    padding: 18px;
+    border-radius: 10px;
+  }
+
+  .booking-box h1 {
+    font-size: 20px;
+  }
+
+  .booking-form input,
+  .booking-form select {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .checkboxGroup label {
+    font-size: 14px;
+  }
+
+  .successPopup {
+    width: 90%;
+    max-width: 320px;
+    padding: 20px;
+  }
+
+  .successIcon {
+    font-size: 40px;
+  }
+
+  .successPopup h2 {
+    font-size: 18px;
+  }
+
+  .successPopup p {
+    font-size: 13px;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .booking-box {
+    margin-top: 33px;
+    padding:0px 15px;
+  }
+
+  .booking-form button {
+    padding: 11px;
+    font-size: 14px;
+  }
+
+  .checkboxGroup {
+    gap: 10px;
+  }
+}
