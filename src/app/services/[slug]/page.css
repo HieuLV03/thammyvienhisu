@@ -109,7 +109,21 @@
   font-size: 20px;
   margin-bottom: 4px;
 }
+.serviceImageWrap {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0;
+}
 
+.serviceImage {
+  width: 100%;
+  max-width: 750px;
+  height: auto;
+  border-radius: 14px;
+  object-fit: contain;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+
+}
 /* MOBILE */
 @media (max-width: 768px) {
   .page {

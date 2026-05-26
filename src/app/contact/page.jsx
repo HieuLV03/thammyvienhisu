@@ -241,7 +241,8 @@ export default function ContactPage() {
 
         <div className="contact-info">
           <h2>Thông tin</h2>
-          <p>📍 15A Sông Đà, TP.HCM</p>
+                    <p>📍Trụ sở: 354/47 Quốc lộ 1, Phường Bình Tân, TP.HCM</p>
+          <p>📍Cơ sở: 15A Sông Đà, Phường Tân Sơn Hòa, TP.HCM</p>
           <p>📞 0372 089 821</p>
           <p>📧 thammyvienhisu@gmail.com</p>
 

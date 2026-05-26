@@ -182,14 +182,14 @@ export default async function Page({
   </div>
 )}
 {data.image && (
-  <div className="detailImageWrap">
+  <div className="serviceImageWrap">
     <Image
       src={data.image}
       alt={data.title}
       width={1200}
       height={800}
       priority
-      className="detailImage"
+      className="serviceImage"
     />
   </div>
 )}
