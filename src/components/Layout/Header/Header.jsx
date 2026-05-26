@@ -94,9 +94,15 @@ useEffect(() => {
     </Link>
         </div>
       )}
-
+  {menuOpen && (
+  <div
+    className="menuOverlay"
+    onClick={() => setMenuOpen(false)}
+  />
+)}
       {/* HEADER */}
 <header className={`header ${showHeader ? "show" : "hide"} ${role === "admin" ? "hasAdminBar" : ""}`}>
+
           <div className="headerLeft">
         <Link href="/" className="logo">
   <Image

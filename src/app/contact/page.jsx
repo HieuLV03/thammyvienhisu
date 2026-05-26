@@ -164,7 +164,7 @@ export default function ContactPage() {
               onChange={handleChange}
               required
             >
-              <option value="">-- Hình thức --</option>
+              <option value="">-- Chọn hình thức --</option>
               <option value="Làm tại cơ sở">Làm tại cơ sở</option>
               <option value="Làm tại nhà">Làm tại nhà</option>
             </select>
