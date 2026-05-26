@@ -154,14 +154,14 @@ margin: 10px;
     flex-direction: column;
     align-items: center;
     width: 90%;
-    gap: 12px;
+    gap: 6px;
   }
 
   .btnPrimary,
   .btnOutline {
     width: 90%;
     max-width: 260px;
-
+margin: 6px;
     height: 50px;
 
     font-size: 14px;

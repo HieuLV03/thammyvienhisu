@@ -44,7 +44,7 @@ export default function Footer() {
           <h3>Mạng xã hội FACEBOOK</h3>
 
           <div className="social">
-            <a href="https://www.facebook.com/profile.php?id=61564510092133">Thẩm mỹ viên HISU</a>
+            <a href="https://www.facebook.com/profile.php?id=61564510092133">Thẩm mỹ viện HISU</a>
           </div>
              <div className="social">
             <a href="https://www.facebook.com/profile.php?id=61588684948414">Dịch vụ chuyên làm hồng vùng kín</a>
