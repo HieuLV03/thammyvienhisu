@@ -3,6 +3,7 @@ import "./page.css";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import BackButton from "@/components/BackButton/BackButton";
+import Link from "next/link";
 
 // FIX CACHE
 export const revalidate = 3600;
@@ -17,14 +18,17 @@ export async function generateStaticParams() {
     slug: item.slug,
   }));
 }
-export async function generateMetadata({ params }) {
+
+export async function generateMetadata({
+  params,
+}) {
   const { slug } = params;
 
   const { data } = await supabase
     .from("services")
     .select("*")
     .eq("slug", slug)
-      .eq("status", "published")
+    .eq("status", "published")
     .maybeSingle();
 
   if (!data) {
@@ -32,74 +36,95 @@ export async function generateMetadata({ params }) {
       title: "Không tìm thấy dịch vụ",
     };
   }
-return {
-  metadataBase: new URL(
-    "https://thammyvienhisu.online"
-  ),
 
-  title:
-    data.meta_title ||
-    data.title,
+  const title =
+    data.meta_title || data.title;
 
-  description:
+  const description =
     data.meta_description ||
-    data.short_description,
+    data.short_description;
 
-  robots: {
-    index: true,
-    follow: true,
-  },
+  const url = `/services/${data.slug}`;
 
-  alternates: {
-    canonical: `/services/${data.slug}`,
-  },
+  return {
+    metadataBase: new URL(
+      "https://thammyvienhisu.online"
+    ),
 
-  openGraph: {
-    title:
-      data.meta_title ||
+    title,
+
+    description,
+
+    keywords: [
       data.title,
+      "phun môi",
+      "phun mày",
+      "phun xăm thẩm mỹ",
+      "thẩm mỹ viện HISU",
+      "phun môi collagen",
+      "phun môi TP.HCM",
+    ],
 
-    description:
-      data.meta_description ||
-      data.short_description,
+    authors: [
+      {
+        name: "HISU Beauty",
+      },
+    ],
 
-    url: `/services/${data.slug}`,
+    robots: {
+      index: true,
+      follow: true,
+    },
 
-    siteName:
-      "Thẩm mỹ viện HiSu",
+    alternates: {
+      canonical: url,
+    },
 
-    locale: "vi_VN",
+    openGraph: {
+      title,
 
-    type: "article",
+      description,
 
-    images: data.image
-      ? [
-          {
-            url: data.image,
-            width: 1200,
-            height: 630,
-          },
-        ]
-      : [],
-  },
+      url,
 
-  twitter: {
-    card:
-      "summary_large_image",
+      siteName:
+        "Thẩm mỹ viện HiSu",
 
-    title:
-      data.meta_title ||
-      data.title,
+      locale: "vi_VN",
 
-    description:
-      data.meta_description ||
-      data.short_description,
+      type: "article",
 
-    images: data.image
-      ? [data.image]
-      : [],
-  },
-};
+      publishedTime:
+        data.created_at,
+
+      modifiedTime:
+        data.updated_at,
+
+      images: data.image
+        ? [
+            {
+              url: data.image,
+              width: 1200,
+              height: 630,
+              alt: data.title,
+            },
+          ]
+        : [],
+    },
+
+    twitter: {
+      card:
+        "summary_large_image",
+
+      title,
+
+      description,
+
+      images: data.image
+        ? [data.image]
+        : [],
+    },
+  };
 }
 
 export default async function Page({
@@ -125,7 +150,9 @@ export default async function Page({
   type="application/ld+json"
   dangerouslySetInnerHTML={{
     __html: JSON.stringify({
-      "@context": "https://schema.org",
+      "@context":
+        "https://schema.org",
+
       "@type": "Service",
 
       name: data.title,
@@ -133,24 +160,55 @@ export default async function Page({
       description:
         data.short_description,
 
-      image: data.image,
+      image: [data.image],
 
-      mainEntityOfPage: {
-        "@type": "WebPage",
-        "@id": `https://thammyvienhisu.online/services/${data.slug}`,
+      url: `https://thammyvienhisu.online/services/${data.slug}`,
+
+      serviceType:
+        data.title,
+
+      areaServed: {
+        "@type": "City",
+        name: "TP.HCM",
       },
 
       provider: {
-        "@type": "BeautySalon",
+        "@type":
+          "BeautySalon",
 
-        name: "Thẩm mỹ viện HiSu",
+        name:
+          "Thẩm mỹ viện HiSu",
 
-        url: "https://thammyvienhisu.online",
+        url:
+          "https://thammyvienhisu.online",
+
+        logo: {
+          "@type":
+            "ImageObject",
+
+          url:
+            "https://thammyvienhisu.online/logo.png",
+        },
       },
 
-      areaServed: {
-        "@type": "Country",
-        name: "Việt Nam",
+      offers: {
+        "@type": "Offer",
+
+        price:
+          data.price || 0,
+
+        priceCurrency:
+          "VND",
+
+        availability:
+          "https://schema.org/InStock",
+      },
+
+      mainEntityOfPage: {
+        "@type":
+          "WebPage",
+
+        "@id": `https://thammyvienhisu.online/services/${data.slug}`,
       },
     }),
   }}
@@ -200,6 +258,37 @@ export default async function Page({
             data.content || "",
         }}
       />
+<div className="ctaBox">
+  <div className="ctaBadge">
+    ✨ Ưu đãi đặc biệt hôm nay
+  </div>
+
+  <h2 className="ctaTitle">
+    Đặt lịch ngay hôm nay để nhận ưu đãi hấp dẫn
+  </h2>
+
+  <p className="ctaText">
+    Đặt lịch cùng HISU Beauty để được tư vấn miễn phí, 
+    chọn tone phù hợp khuôn mặt và nhận ưu đãi dành riêng hôm nay.
+  </p>
+
+  <div className="ctaButtons">
+    <Link
+      href="/booking"
+      className="ctaBtn primary"
+    >
+      📅 Đặt lịch ngay
+    </Link>
+
+    <a
+      href="https://zalo.me/0372089821"
+      target="_blank"
+      className="ctaBtn secondary"
+    >
+      💬 Tư vấn qua Zalo
+    </a>
+  </div>
+</div>
     </div>
   );
 }

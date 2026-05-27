@@ -45,55 +45,54 @@ export default function ContactPage() {
     setErrorPopup(msg);
     setTimeout(() => setErrorPopup(""), 3000);
   };
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  if (form.services.length === 0) {
+    showError("Vui lòng chọn ít nhất 1 dịch vụ.");
+    return;
+  }
 
-    if (form.services.length === 0) {
-      showError("Vui lòng chọn ít nhất 1 dịch vụ.");
-      return;
-    }
+  if (!form.serviceType) {
+    showError("Vui lòng chọn hình thức làm đẹp.");
+    return;
+  }
 
-    if (!form.serviceType) {
-      showError("Vui lòng chọn hình thức làm đẹp.");
-      return;
-    }
+  setLoading(true);
 
-    setLoading(true);
+  const formData = { ...form };
 
-    try {
-      const res = await fetch("/api", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
+  // reset form ngay
+  setForm({
+    name: "",
+    phone: "",
+    email: "",
+    services: [],
+    serviceType: "",
+    message: "",
+  });
 
-      const data = await res.json();
+  // hiện popup ngay lập tức
+  setShowPopup(true);
 
-      if (!data.success) throw new Error();
+  // tự đóng popup
+  setTimeout(() => {
+    setShowPopup(false);
+  }, 2500);
 
-      setForm({
-        name: "",
-        phone: "",
-        email: "",
-        services: [],
-        serviceType: "",
-        message: "",
-      });
+  // gửi API nền
+  fetch("/api", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  }).catch(() => {
+    showError("Có lỗi xảy ra khi gửi dữ liệu.");
+  });
 
-      setShowPopup(true);
-
-      setTimeout(() => {
-        setShowPopup(false);
-      }, 5000);
-    } catch (err) {
-      showError("Gửi thất bại, vui lòng thử lại.");
-    }
-
-    setLoading(false);
-  };
+  setLoading(false);
+};
 
   return (
     <div className="contact">
@@ -223,15 +222,6 @@ export default function ContactPage() {
                 Khử thâm
               </label>
             </div>
-
-            {/* MESSAGE */}
-            <textarea
-              name="message"
-              placeholder="Bạn cần tư vấn gì?"
-              value={form.message}
-              onChange={handleChange}
-              required
-            />
 
             <button disabled={loading}>
               {loading ? "Đang gửi..." : "Gửi yêu cầu"}

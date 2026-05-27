@@ -55,34 +55,40 @@ return {
     canonical: `/posts/${data.slug}`,
   },
 
-  openGraph: {
-    title:
-      data.meta_title ||
-      data.title,
+openGraph: {
+  title:
+    data.meta_title ||
+    data.title,
 
-    description:
-      data.meta_description ||
-      data.description,
+  description:
+    data.meta_description ||
+    data.description,
 
-    url: `/posts/${data.slug}`,
+  url: `/posts/${data.slug}`,
 
-    siteName:
-      "Thẩm mỹ viện HiSu",
+  siteName:
+    "Thẩm mỹ viện HiSu",
 
-    locale: "vi_VN",
+  locale: "vi_VN",
 
-    type: "article",
+  type: "article",
 
-    images: data.image
-      ? [
-          {
-            url: data.image,
-            width: 1200,
-            height: 630,
-          },
-        ]
-      : [],
-  },
+  publishedTime:
+    data.created_at,
+
+  modifiedTime:
+    data.updated_at,
+
+  images: data.image
+    ? [
+        {
+          url: data.image,
+          width: 1200,
+          height: 630,
+        },
+      ]
+    : [],
+},
 
   twitter: {
     card:

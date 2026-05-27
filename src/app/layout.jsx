@@ -11,11 +11,11 @@ export const metadata = {
   ),
 
   title: {
-    default: "THẨM MỸ VIỆN HISU",
-    template: "%s | THẨM MỸ VIỆN HISU",
+    default: "THẨM MỸ VIỆN HISU - Phun Xăm Thẩm Mỹ Uy Tín Chuyên Nghiệp TP.HCM",
+    template: "%s | TMV HISU",
   },
 
-  description: "Thẩm mỹ công nghệ cao",
+  description: "HISU chuyên phun môi, phun mày, phun mí, phun hồng vùng kín tại nhà và tại cơ sở ở TP.HCM. Công nghệ hiện đại, an toàn, tự nhiên, tư vấn tận tình.",
   icons: {
     icon: "/icon.png",
     shortcut: "/icon.png",
