@@ -1,7 +1,7 @@
 .zaloButton {
   position: fixed;
-  right: 6px;
-  bottom: 30px;
+  right: 24px;
+  bottom: 27px;
 
   width: 54px;
   height: 54px;
@@ -20,6 +20,17 @@
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 
   animation: zaloPulse 1.8s infinite;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .zaloButton {
+    right: 9px;
+    bottom: 27px;
+
+    width: 50px;
+    height: 50px;
+  }
 }
 
 @keyframes zaloPulse {
