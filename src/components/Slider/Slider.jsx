@@ -3,10 +3,7 @@
 import "./Slider.css";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Autoplay,
-  Pagination,
-} from "swiper/modules";
+import { Autoplay, Pagination } from "swiper/modules";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -14,107 +11,83 @@ import Image from "next/image";
 import "swiper/css";
 import "swiper/css/pagination";
 
-export default function Slider({
-  sliders,
-}) {
+import { useEffect, useState } from "react";
+
+export default function Slider({ sliders }) {
+  if (!sliders || sliders.length === 0) return null;
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   return (
     <section className="heroSlider">
 
-      {sliders.length > 0 && (
-        <Swiper
-          modules={[
-            Autoplay,
-            Pagination,
-          ]}
-          slidesPerView={1}
-          loop={sliders.length > 1}
-          speed={1000}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          className="heroSwiper"
-        >
-          {sliders.map((item, index) => (
-            <SwiperSlide key={item.id}>
+      <Swiper
+        modules={[Autoplay, Pagination]}
+        slidesPerView={1}
+        loop={sliders.length > 1}
+        speed={1000}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
+        pagination={{ clickable: true }}
+        className="heroSwiper"
+      >
 
-              <div className="heroSlide">
+        {sliders.map((item, index) => (
+          <SwiperSlide key={item.id}>
+            <div className="heroSlide">
 
-                {/* Mobile */}
-                <Image
-                  src={
-                    item.image_mobile ||
-                    item.image_desktop ||
-                    item.image
-                  }
-                  alt={item.title}
-                  fill
-                  priority={index === 0}
-                  sizes="100vw"
-                  className="heroImg mobileOnly"
-                />
+              {/* ✅ CHỈ 1 IMAGE DUY NHẤT */}
+              <Image
+                src={
+                  isMobile
+                    ? item.image_mobile || item.image_desktop || item.image
+                    : item.image_desktop || item.image
+                }
+                alt={item.title}
+                fill
+                priority={index === 0}
+                sizes="100vw"
+                className="heroImg"
+              />
 
-                {/* Desktop */}
-                <Image
-                  src={
-                    item.image_desktop ||
-                    item.image
-                  }
-                  alt={item.title}
-                  fill
-                  priority={index === 0}
-                  sizes="100vw"
-                  className="heroImg desktopOnly"
-                />
+              <div className="heroOverlay" />
 
-                <div className="heroOverlay" />
+              <div className="heroContent">
 
-                <div className="heroContent">
+                <h1>{item.title}</h1>
 
-                  <h1>{item.title}</h1>
+                <div className="heroActions">
 
-                  <div className="heroActions">
+                  <Link href="/booking" className="btnPrimary">
+                    Đặt lịch ngay
+                  </Link>
 
-                    <Link
-                      href="/booking"
-                      className="btnPrimary"
-                        aria-label="Đặt lịch làm đẹp tại HISU"
+                  <Link href="/services" className="btnOutline">
+                    Xem dịch vụ
+                  </Link>
 
-                    >
-                      Đặt lịch ngay
-                    </Link>
-
-                    <Link
-                      href="/services"
-                      className="btnOutline"
-                        aria-label="Xem danh sách dịch vụ"
-
-                    >
-                      Xem dịch vụ
-                    </Link>
-
-                    <Link
-                      href="/posts"
-                      className="btnOutline"
-                        aria-label="Xem bài viết làm đẹp"
-
-                    >
-                      Xem bài viết
-                    </Link>
-
-                  </div>
+                  <Link href="/posts" className="btnOutline">
+                    Xem bài viết
+                  </Link>
 
                 </div>
 
               </div>
 
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      )}
+            </div>
+          </SwiperSlide>
+        ))}
+
+      </Swiper>
 
     </section>
   );
