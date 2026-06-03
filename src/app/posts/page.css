@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap");
 
 :root {
   --primary: #ff4d8d;
@@ -14,7 +13,7 @@
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-inter);
   background: #f7f9fc;
 }
 
@@ -69,9 +68,8 @@ body {
 .heroContent h1 {
   font-size: 60px;
   font-weight: 800;
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-inter);
 }
-
 .heroContent p {
   margin-top: 15px;
   font-size: 18px;

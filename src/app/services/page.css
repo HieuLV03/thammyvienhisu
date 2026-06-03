@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap");
 
 :root {
   --blue: #43a7ff;
@@ -17,12 +16,12 @@
   padding: 0;
   box-sizing: border-box;
 }
-
 body {
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-inter);
   background: var(--bg);
   color: var(--text);
 }
+
 .serviceCard,
 .blogCard {
   display: flex;

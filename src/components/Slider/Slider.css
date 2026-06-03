@@ -106,6 +106,8 @@ margin: 10px;
 
 .btnPrimary:hover {
   transform: translateY(-4px);
+    background: rgba(187, 13, 138, 0.8);
+
 }
 
 .btnOutline {
@@ -114,7 +116,7 @@ margin: 10px;
 }
 
 .btnOutline:hover {
-  background: rgba(255,255,255,0.15);
+  background: rgba(187, 13, 138, 0.8);
 }
 
 /* PAGINATION */
