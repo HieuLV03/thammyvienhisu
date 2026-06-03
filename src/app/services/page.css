@@ -23,12 +23,16 @@ body {
   background: var(--bg);
   color: var(--text);
 }
-
-img {
-  width: 100%;
-  display: block;
+.serviceCard,
+.blogCard {
+  display: flex;
+  flex-direction: column;
 }
 
+.serviceBody,
+.blogBody {
+  flex: 1;
+}
 /* ================= SECTION ================= */
 
 .section {
@@ -87,23 +91,23 @@ img {
 .blogImg {
   position: relative;
   overflow: hidden;
-  height: 260px;
-}
+  height: auto;
+    aspect-ratio: 3 / 2;
 
-.serviceImg img,
-.blogImg img {
+}
+.cardImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 
   transition:
     transform 0.7s ease,
     filter 0.5s ease;
 }
-
 /* image hover */
-.serviceCard:hover img,
-.blogCard:hover img {
+.serviceCard:hover .cardImage,
+.blogCard:hover .cardImage {
   transform: scale(1.08);
   filter: brightness(1.05);
 }
@@ -350,11 +354,6 @@ img {
   .blogGrid {
     grid-template-columns: 1fr;
     gap: 18px;
-  }
-
-  .serviceImg,
-  .blogImg {
-    height: 240px;
   }
 
   .imgOverlay {

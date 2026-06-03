@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { supabase } from "@/lib/supabase";
-
+import Image from "next/image";
 import "./page.css";
 import BackButton from "@/components/BackButton/BackButton";
 
@@ -17,6 +17,8 @@ export default async function HomePage() {
       .from("services")
       .select("*")
       .eq("status", "published")
+        .eq("featured", true)
+
       .order("created_at", {
         ascending: false,
       }),
@@ -60,12 +62,14 @@ export default async function HomePage() {
 
               <div className="blogImg">
 
-                <img
-                  src={p.image}
-                  alt={p.title}
-                  loading="lazy"
-                  decoding="async"
-                />
+<Image
+  src={p.image}
+  alt={p.title}
+  width={600}
+  height={400}
+  sizes="(max-width:768px) 100vw, 33vw"
+  className="cardImage"
+/>
 
                 <div className="imgOverlay">
 
@@ -113,13 +117,14 @@ export default async function HomePage() {
             >
 
               <div className="serviceImg">
-
-                <img
-                  src={s.image}
-                  alt={s.title}
-                  loading="lazy"
-                  decoding="async"
-                />
+<Image
+  src={s.image}
+  alt={s.title}
+  width={600}
+  height={400}
+  sizes="(max-width:768px) 100vw, 33vw"
+  className="cardImage"
+/>
 
                 <div className="imgOverlay">
 

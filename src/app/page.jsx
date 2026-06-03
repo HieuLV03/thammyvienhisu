@@ -38,7 +38,7 @@ export default async function HomePage() {
         .order("created_at", {
           ascending: false,
         })
-        .limit(3),
+        .limit(5),
     ]);
 
   const sliders = sliderRes.data || [];
