@@ -41,7 +41,15 @@ export default function RootLayout({ children }) {
       lang="vi"
       className={`${inter.variable} ${playfair.variable} ${poppins.variable}`}
     >
-   <head>
+   <head><script
+  dangerouslySetInnerHTML={{
+    __html: `
+      setTimeout(() => {
+        window.ttq && window.ttq.track && window.ttq.track('PageView');
+      }, 1000);
+    `,
+  }}
+/>
   <script
     dangerouslySetInnerHTML={{
       __html: `
@@ -87,9 +95,10 @@ export default function RootLayout({ children }) {
           x.parentNode.insertBefore(s,x);
         };
 
-        ttq.load('D8GE2OJC77U3N4JA967G');
-        ttq.page();
-      }(window, document, 'ttq');
+    ttq.load('D8GE2OJC77U3N4JA967G');
+setTimeout(() => {
+  ttq.track('PageView');
+}, 800);
       `,
     }}
   />
