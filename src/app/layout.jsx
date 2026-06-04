@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
     >
       <head>
         {/* TikTok Pixel */}
-        <Script id="tiktok-pixel" strategy="afterInteractive">
+        <Script id="tiktok-pixel" strategy="beforeInteractive">
           {`
             !function (w, d, t) {
               w.TiktokAnalyticsObject = t;

@@ -1,32 +1,24 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-const ZaloButton = dynamic(() => import("@/components/ZaloButton/ZaloButton"), {
-  ssr: false,
-});
-
-const BookingButton = dynamic(() => import("@/components/BookingButton/BookingButton"), {
-  ssr: false,
-});
-
-const BookingPopup = dynamic(() => import("@/components/BookingPopup/BookingPopup"), {
-  ssr: false,
-});
-
-import Header from "@/components/Layout/Header/Header";
-import Footer from "@/components/Layout/Footer/Footer";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 export default function ClientLayout({ children }) {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (window.ttq) {
+      window.ttq.page(); // 🔥 bắt buộc mỗi route change
+    }
+  }, [pathname]);
+
   return (
     <>
       <Header />
-      <main className="mainContent">{children}</main>
-
+      <main>{children}</main>
       <ZaloButton />
       <BookingButton />
       <BookingPopup />
-
       <Footer />
     </>
   );
